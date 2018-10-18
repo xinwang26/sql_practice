@@ -1,0 +1,25 @@
+/* Write your PL/SQL query statement below */
+select distinct num as ConsecutiveNums from
+(select 
+ id
+,lag(num,1) over (order by id) as prev_num
+,lag(num,2) over (order by id) as prev2_num
+,num
+from logs
+)
+where prev_num = num and prev2_num = num
+
+
+/* Write your PL/SQL query statement below */
+select Employee from
+(
+    select 
+      t1.name as Employee
+    , t1.salary as emp_sal
+    , t2.salary as mngr_sal
+    from Employee t1 
+    inner join Employee t2
+    on t1.managerid = t2.id
+    where t1.managerid is not null
+)
+where emp_sal > mngr_sal
